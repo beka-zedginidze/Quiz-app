@@ -1,0 +1,57 @@
+<div class="containter">
+    <div class="header">
+        <h1>Quiz Application</h1>
+    </div>
+
+    <div class="select">   
+        <label>Select Category:</label>
+        
+        <select class="category" (click)="OnCategory()" #categorySelect (change)='Url($event.target.value, dif[0])'>
+            <option>Select Category</option>
+            <option *ngFor="let cat of category" [value]="cat.id" [selected]="cat === category.id">{{ cat.name }}</option>
+        </select>
+        
+        <label>Select Difficulty:</label>
+        <select (click)="difficult()">
+            <option>Select Difficulty</option>
+            <option *ngFor="let Difficulty of dif" [value]="Difficulty">{{ Difficulty }}</option>
+        </select>
+    </div>
+
+    <button class="start" (click)='generateUrl()'>
+        Start Quiz
+    </button>
+    <div class="quiz-question">
+        <div *ngIf='generate==false' >
+            <div *ngFor="let question of url.results">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+    
+               <h3 class="">
+                  <span [innerHTML]="question.question"></span>
+               </h3>
+               <div *ngFor="let quest of question.incorrect_answers">
+                <label class="" >
+                    <input type="radio" name="questions"(change)="onChange(quest, $event.target.checked)"> {{ quest }}
+                </label>
+               </div>
+               <label>
+                <input class="correct" type="radio" name="questions"  (change)="onChange(question.correct_answer, $event.target.checked)"> {{question.correct_answer}}
+               </label>
+            </form>
+            </div>
+        </div>
+        <div *ngIf='generate==false'>
+            <button class="answers" (click)="isCorrect()" (click)="answer()">submit</button>
+            <p>Your Answers: {{user_answer}}</p>
+        
+        <ng-container *ngIf="show">
+            <p> Correct Answers: {{ url1 }}</p>
+        </ng-container>
+        </div>
+        <button class="answers" (click)="toggle()" id="bt" *ngIf="generate==false">
+            {{buttonName}}
+        </button>
+    
+    </div>
+
+</div>
